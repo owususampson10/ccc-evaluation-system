@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: #ffffff;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animation for conditional fields */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Print-specific styles */
+@media print {
+  html, body {
+    background-color: #fff !important;
+    color: #000 !important;
+    margin: 0 !important; /* Set margin to 0 here and use @page margin */
+    padding: 0 !important;
+    font-family: Georgia, serif !important;
+    line-height: 1.5 !important;
+    min-height: auto !important;
+    width: 100% !important; /* Ensure body takes full width */
+  }
+
+  /* Hide everything by default, then show only what's needed */
+
+  /* Hide unwanted UI elements aggressively */
+  body > div:first-child > aside.no-print, /* The Sidebar component */
+  .no-print, /* General class for anything to hide */
+  .back-button, /* Selector for "Back to All Responses" button */
+  .print-hide-buttons, /* A class to add to the action buttons container */
+  .user-profile-section, /* Selector for user profile at bottom of sidebar */
+  .sign-out-button, /* Selector for Sign Out button */
+  .logo-section, /* Logo in sidebar */
+  .toggle-button, /* Sidebar toggle button */
+  .flex.min-h-screen.bg-gray-50 > div:first-child > button, /* Catch-all for sidebar toggle */
+  .AppLayout .sidebar, /* More specific sidebar targeting */
+  .AppLayout .header, /* If there's a global header */
+  .AppLayout .footer, /* If there's a global footer */
+  /* Ensure main content area does not have layout shifts from print */
+  body > div:first-child > main {
+    padding-left: 0 !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  body > div:first-child > main > div.mx-auto.max-w-7xl.p-8.animate-fadeIn {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .response-details-print-wrapper {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Show print-only elements */
+  .print-header,
+  .print-footer {
+    display: block !important;
+    position: static !important; /* Ensure they flow with content */
+  }
+
+  /* Header Styling */
+  .print-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0.75in; /* Padding to match page margins */
+  }
+  .print-header h1 {
+    font-size: 24pt !important;
+    margin-bottom: 0.5rem;
+    color: #000 !important;
+  }
+  .print-header h2 {
+    font-size: 18pt !important;
+    margin-bottom: 0.5rem;
+    color: #000 !important;
+  }
+  .print-header h3 {
+    font-size: 14pt !important;
+    margin-bottom: 0.5rem;
+    color: #000 !important;
+  }
+  .print-header div span {
+    font-size: 10pt !important;
+    color: #000 !important;
+  }
+  .print-header hr {
+    border-top: 1px solid #000;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Meta Info Print */
+  .meta-info-print {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.75in 1.5rem 0.75in; /* Match margins */
+    border-bottom: 1px solid #eee; /* Subtle separator */
+  }
+  .meta-info-print p {
+    color: #000 !important;
+  }
+  .meta-info-print p:first-child {
+    font-weight: bold !important;
+    font-size: 10pt !important;
+    text-transform: uppercase;
+  }
+  .meta-info-print p:last-child {
+    font-size: 11pt !important;
+    font-weight: normal !important;
+  }
+
+  /* Content Sections */
+  .detail-section {
+    page-break-before: always;
+    break-before: page;
+    margin-bottom: 20px !important;
+    padding: 0 0.75in; /* Match page margins */
+  }
+  .detail-section:first-of-type {
+    page-break-before: auto;
+    break-before: auto;
+  }
+
+  .detail-section > div:first-child {
+    background-color: #fff !important;
+    border-bottom: 1px solid #ccc !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .detail-section h3 {
+    font-size: 18pt !important;
+    margin-top: 20px !important;
+    margin-bottom: 15px !important;
+    color: #000 !important;
+  }
+  .detail-section > div:last-child {
+    padding: 0 !important;
+  }
+  .detail-section > div:last-child > div {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem 2rem !important;
+  }
+  .detail-section > div:last-child > div > div.full-width-text {
+    grid-column: span 2 / span 2 !important;
+  }
+
+  .detail-item {
+    margin-bottom: 0.8rem !important;
+  }
+  .detail-item p:first-child {
+    font-weight: bold !important;
+    font-size: 12pt !important;
+    margin-bottom: 0.2rem !important;
+    color: #000 !important;
+  }
+  .detail-item div:last-child {
+    font-weight: normal !important;
+    font-size: 12pt !important;
+    color: #000 !important;
+  }
+
+  /* Handle long text responses */
+  .whitespace-pre-wrap {
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+  }
+  .detail-item.full-width-text {
+    border: 1px solid #eee;
+    padding: 10px;
+  }
+
+  /* Footer Styling */
+  .print-footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 10px 0.75in !important;
+    border-top: 1px solid #eee;
+    background-color: #fff !important;
+    font-size: 10pt !important;
+    text-align: right !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    color: #000 !important;
+  }
+  .print-footer span {
+    color: #000 !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0.75in;
+  }
+}

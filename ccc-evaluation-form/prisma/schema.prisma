@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// User accounts (admin and volunteer)
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String   // Hashed with bcrypt
+  role      String   // "admin" or "volunteer"
+  createdAt DateTime @default(now())
+
+  @@index([username])
+}
+
+// Form responses
+model Response {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  enteredBy String   // Username of volunteer who entered it
+
+  // Section A: Personal Information
+  ageGroup            String
+  gender              String
+  serviceAttendance   String
+  isMember            Boolean
+  membershipCode      String?
+  isRegularVisitor    Boolean?
+  hasChildren         Boolean
+  childrenDepartments String  // JSON string array
+
+  // Section B: Service Experience
+  overallRating    String
+  transitionSmooth String
+  enjoyMost        String  @default("")
+  improveAspects   String  @default("")
+  timesConvenient  Boolean
+  timeSuggestions  String?
+
+  // Section C: Departmental Involvement
+  departmentsInvolved     String @default("")
+  departmentActivity      String
+  departmentEffectiveness String
+  departmentImprovements  String @default("")
+
+  // Section D: Ministry Functionality
+  ministriesServing    String @default("")
+  ministryTeamwork     String
+  ministrySupport      String
+  ministryImprovements String @default("")
+
+  // Section E: Overall Feedback
+  spiritualAtmosphere String
+  exceptionalAreas    String @default("")
+  urgentImprovements  String @default("")
+  additionalThoughts  String @default("")
+
+  // Audit Fields
+  lastEditedBy        String?
+  lastEditedAt        DateTime?
+  editHistory         String?  // JSON string array of {username, timestamp}
+
+  @@index([createdAt])
+  @@index([enteredBy])
+  @@index([serviceAttendance])
+  @@index([overallRating])
+  @@index([createdAt, serviceAttendance])
+  @@index([membershipCode])
+}
