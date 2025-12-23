@@ -1,11 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
+  
+  // This replaces the old experimental tracing option
+  serverExternalPackages: ["@prisma/client"],
+
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['recharts', 'lucide-react', 'framer-motion'],
